@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -34,6 +35,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(verbose_name='comment')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
@@ -42,5 +44,13 @@ class Comment(models.Model):
 
 
 class Rating(models.Model):
-    view = models.IntegerField(verbose_name='Rating')
+    class RatingStarsChoices(models.TextChoices):
+        STAR_5 = '5',
+        STAR_4 = '4',
+        STAR_3 = '3',
+        STAR_2 = '2',
+        STAR_1 = '1',
+        STAR_0 = '0'
+
+    value = models.CharField(max_length=1, choices=RatingStarsChoices.choices, default=RatingStarsChoices.STAR_0)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
