@@ -11,3 +11,6 @@ admin.site.register(Rating)
 # class ProductAdmin(TranslationAdmin):
 #     list_display = ('slug', 'name')
 #     list_filter = ('slug',)
+
+
+# salom sardor man o'zim brenchimga yozyabman
