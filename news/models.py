@@ -2,8 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# from django.utils.translation import gettext_lazy as _
+
+
 class Category(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Category')
+    name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, unique=True)
 
     def __str__(self):
@@ -11,7 +14,7 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Tag')
+    name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, unique=True)
 
     def __str__(self):
@@ -19,16 +22,16 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Title')
+    title = models.CharField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to='images/')
-    view = models.PositiveIntegerField(verbose_name='View', default=0)
+    view = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.CharField(max_length=100, verbose_name='Author', null=True, blank=True)
+    author = models.CharField(max_length=100, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     tags = models.ManyToManyField(Tag)
-    on_top = models.BooleanField()
+    on_top = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -40,7 +43,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.text
+        return self.text[:50]  # or adjust length as needed
 
 
 class Rating(models.Model):
@@ -50,7 +53,7 @@ class Rating(models.Model):
         STAR_3 = '3',
         STAR_2 = '2',
         STAR_1 = '1',
-        STAR_0 = '0'
+        STAR_0 = '0',
 
-    value = models.CharField(max_length=1, choices=RatingStarsChoices.choices, default=RatingStarsChoices.STAR_0)
+    value = models.CharField(max_length=2, choices=RatingStarsChoices.choices, default=RatingStarsChoices.STAR_0)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

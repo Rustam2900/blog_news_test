@@ -2,7 +2,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, GenericAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from news.models import Category
 from news.serializer import CategorySerializer
-
+from rest_framework.views import APIView
 
 # class CategoryListAPIView(ListAPIView):
 #     queryset = Category.objects.all()
