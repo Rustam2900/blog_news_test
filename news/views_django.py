@@ -1,15 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Comment, Rating, Category, Tag
+from .models import Post, Comment, Category, Tag
 from .forms import PostForm, CommentForm, RatingForm
 
 
-# Barcha postlarni ko'rsatish
 def post_list(request):
     posts = Post.objects.all()
+    print(posts)
     return render(request, 'post_list.html', {'posts': posts})
 
 
-# Bitta postni ko'rsatish
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = Comment.objects.filter(post=post)
@@ -27,7 +26,6 @@ def post_detail(request, pk):
     return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'comment_form': comment_form})
 
 
-# Post yaratish
 def post_create(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -35,14 +33,12 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = request.user.username
             post.save()
-            form.save_m2m()  # tags ManyToMany maydonini saqlash uchun
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
     return render(request, 'post_form.html', {'form': form})
 
 
-# Postni yangilash
 def post_update(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -55,14 +51,12 @@ def post_update(request, pk):
     return render(request, 'post_form.html', {'form': form})
 
 
-# Postni o'chirish
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list.html')
 
 
-# Postga rating qo'yish
 def add_rating(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
