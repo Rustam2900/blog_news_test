@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import  CategoryRetrieveModelMixin
+from .views import CategoryRetrieveModelMixin
 
 urlpatterns = [
     # path('categories/', CategoryListModelMixin.as_view(), name='category-list'),

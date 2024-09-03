@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'news',
-    # 'rest_framework'
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -68,12 +68,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': "django.db.backends.postgresql",
-        'NAME': env("NAME", default='blog_news'),
-        'USER': env('USER', default='postgres'),
-        'PASSWORD': env('PASSWORD', default='rus_2900'),
-        'HOST': env('HOST', default='localhost'),
-        'PORT': env('PORT', default=5432),
+        'ENGINE': "django.db.backends.sqlite3",
+        'NAME': 'db.sqlite3',
+    #     'USER': env('USER', default='postgres'),
+    #     'PASSWORD': env('PASSWORD', default='rus_2900'),
+    #     'HOST': env('HOST', default='localhost'),
+    #     'PORT': env('PORT', default=5432),
     }
 }
 
@@ -119,14 +119,16 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "staticfiles",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "staticfiles",
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.User'
 
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
@@ -268,3 +270,13 @@ JAZZMIN_SETTINGS = {
     # Add a language dropdown into the admin
     "language_chooser": False,
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = '@gmail.com'
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
